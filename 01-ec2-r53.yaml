@@ -6,9 +6,10 @@
     sg_id: "sg-06e98ee3d4e95cf41"
     zone_id: "Z0553382WPE1E3VPCYS6"
     domain_name: "azharprojects.site"
-    instances:
-    - mongodb
-    - mysql
+    # commented as to give in CLI
+    # instances:
+    # - mongodb
+    # - mysql
   
   tasks:
   - name: create ec2 instance
