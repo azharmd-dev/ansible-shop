@@ -1,5 +1,5 @@
 - name: setup for user
-  hosts: local
+  hosts: user
   become: yes
   tasks: 
   - name: disable nodejs
@@ -50,4 +50,4 @@
       name: user 
       state: started
       enabled: yes
-      
+
