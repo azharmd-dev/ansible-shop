@@ -1,0 +1,75 @@
+- name: setup for catalogue
+  hosts: local
+  become: yes
+  tasks:
+  - name: disable default nodejs
+    ansible.builtin.command: dnf module disable nodejs -y
+  
+  - name: enable nodejs version 20
+    ansible.builtin.command: dnf module enable nodejs:20 -y
+  
+  - name: install nodejs 
+    ansible.builtin.package:
+      name: nodejs
+      state: present
+  
+  - name: create system user
+    ansible.builtin.user:
+      name: roboshop
+      comment: roboshop system user
+      system: true
+      shell: /sbin/nologin
+      home: /app
+  
+  - name: create app directory
+    ansible.builtin.file: 
+      state: directory
+      path: /app
+  
+  - name: downloading a catalogue application
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+      dest: /tmp/catalogue.zip
+
+  - name: extracting the application
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+  
+  - name: install dependencies
+    community.general.npm:
+      path: /app
+      
+  - name: catalogue service
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+
+  - name: copy mongo repo
+    ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: install mongod client
+    ansible.builtin.package:
+      name: mongodb-mongosh
+      state: present
+  
+  - name: connnect to mongodb catalogue
+    ansible.builtin.command: mongosh mongodb.azharprojects.site --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')"
+    register: catalogue_output
+
+# - name: print catalogue output
+#   ansible.builtin.debug:
+#     msg: "{{ catalogue_output }}"
+  
+  - name: load products into mongodb
+    ansible.builtin.command: mongosh --host mongodb.azharprojects.site </app/db/master-data.js
+    when: catalogue_output.stdout | int < 0 #convert string to int
+  
+  - name: start and enable catalogue
+    ansible.builtin.service:
+      name: catalogue
+      enabled: yes
+      state: started
