@@ -48,3 +48,5 @@
       value: "{{ item.instances[0].private_ip_address }}"
       overwrite: true
     loop: "{{ ec2_output.results }}"
+
+# ansible-playbook -i inventory.ini <playbookname> -e "instances=['mongodb', 'mysql']"
