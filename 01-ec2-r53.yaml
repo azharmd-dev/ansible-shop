@@ -26,6 +26,21 @@
     ansible.builtin.debug:
       msg: "{{ ec2_output }}"
   
-  # - name: taking public ip from  ec2_output
-  #   ansible.builtin.debug:
-  #     msg: "{{ item.instances[0].public_ip_address}}"
+  - name: taking public ip from  ec2_output
+    ansible.builtin.debug:
+      msg: "{{ item.instances[0].public_ip_address}}"
+
+  - name: taking private ip from  ec2_output
+    ansible.builtin.debug:
+      msg: "{{ item.instances[0].private_ip_address}}"
+
+  - name: create route53
+    amazon.aws.route53:
+      state: present
+      zone: "{{ domain_name }}"
+      record: "{{ item }}.{{ domain_name }}" #mongodb.azharprojects.site
+      type: A
+      ttl: 1
+      value: "{{ item.instances[0].private_ip_address}}"
+      overwrite: true
+    loop: "{{ ec2_output.results }}"
