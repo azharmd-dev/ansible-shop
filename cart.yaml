@@ -1,5 +1,5 @@
 - name: setup for cart 
-  hosts: local
+  hosts: cart
   become: yes
   tasks:
   - name: disable nodejs
@@ -51,4 +51,4 @@
       name: cart
       state: started
       enabled: yes
-      
+
