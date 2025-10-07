@@ -2,8 +2,8 @@
   hosts: local
   connection: local
   vars:
-    ami-id: ami-09c813fb71547fc4f
-    sg-id: sg-06e98ee3d4e95cf41
+    ami-id: "ami-09c813fb71547fc4f"
+    sg-id: "sg-06e98ee3d4e95cf41"
     zone-id: "Z0553382WPE1E3VPCYS6"
     domain-name: "azharprojects.site"
     instances:
