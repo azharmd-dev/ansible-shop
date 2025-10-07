@@ -49,4 +49,4 @@
       overwrite: true
     loop: "{{ ec2_output.results }}"
 
-# ansible-playbook -i inventory.ini <playbookname> -e "instances=['mongodb', 'mysql']"
+#ansible-playbook -i inventory.ini <playbookname> -e "instances=['mongodb', 'mysql']"
