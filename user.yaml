@@ -19,7 +19,12 @@
       comment: roboshop system user
       shell: /sbin/nologin
       home: /app
-  
+
+  - name: delete a directory
+    ansible.builtin.file:
+      path: /app
+      state: absent
+
   - name: create a directory
     ansible.builtin.file:
       path: /app
@@ -30,6 +35,11 @@
       url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
       dest: /tmp/user.zip
   
+  - name: removing downloaded file
+    ansible.builtin.file:
+      path: /tmp/user.zip
+      state: absent
+
   - name: extracting the file
     ansible.builtin.unarchive:
       src: /tmp/user.zip
@@ -45,9 +55,10 @@
       src: user.service
       dest: /etc/systemd/system/user.service
 
-  - name: start and enable
-    ansible.builtin.service:
-      name: user 
+  - name: daemon reload enable and start
+    ansible.builtin.systemd_service:
+      name: user
+      enabled: true
       state: started
-      enabled: yes
+      daemon_reload: true
 
