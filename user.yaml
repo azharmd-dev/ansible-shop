@@ -30,15 +30,15 @@
       path: /app
       state: directory
 
-  - name: downloading user application
-    ansible.builtin.get_url:
-      url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
-      dest: /tmp/user.zip
-  
   - name: removing downloaded file
     ansible.builtin.file:
       path: /tmp/user.zip
       state: absent
+      
+  - name: downloading user application
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+      dest: /tmp/user.zip
 
   - name: extracting the file
     ansible.builtin.unarchive:
