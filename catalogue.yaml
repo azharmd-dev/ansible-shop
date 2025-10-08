@@ -30,16 +30,16 @@
     ansible.builtin.file: 
       state: directory
       path: /app
-  
-  - name: downloading a catalogue application
-    ansible.builtin.get_url:
-      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
-      dest: /tmp/catalogue.zip
 
   - name: remove downloaded file
     ansible.builtin.file: 
       state: absent
       path: /tmp/catalogue.zip
+      
+  - name: downloading a catalogue application
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+      dest: /tmp/catalogue.zip
 
   - name: extracting the application
     ansible.builtin.unarchive:
