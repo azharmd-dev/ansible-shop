@@ -35,7 +35,7 @@
     ansible.builtin.file: 
       state: absent
       path: /tmp/catalogue.zip
-      
+
   - name: downloading a catalogue application
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
@@ -75,7 +75,7 @@
 #     msg: "{{ catalogue_output }}"
   
   - name: load products into mongodb
-    ansible.builtin.command: mongosh --host mongodb.azharprojects.site </app/db/master-data.js
+    ansible.builtin.shell: mongosh --host mongodb.azharprojects.site </app/db/master-data.js
     when: catalogue_output.stdout | int < 0 #convert string to int
   
   - name: daemon reload enable and start
