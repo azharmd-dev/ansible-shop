@@ -7,9 +7,18 @@
     zone_id: "Z0553382WPE1E3VPCYS6"
     domain_name: "azharprojects.site"
     # commented as to give in CLI
-    # instances:
-    # - mongodb
-    # - mysql
+    instances:
+    - mongodb
+    - mysql
+    - rabbitmq
+    - redis
+    - catalogue
+    - cart
+    - user
+    - shipping
+    - payment
+    - frontend
+
   
   tasks:
   - name: create ec2 instance
