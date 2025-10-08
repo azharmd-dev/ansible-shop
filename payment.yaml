@@ -1,7 +1,7 @@
 - name: setup for payment
   hosts: payment
   become: yes
-  task: 
+  tasks: 
   - name: install paython packages
     ansible.builtin.package:
       name: "{{ item }}"
