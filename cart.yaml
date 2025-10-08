@@ -36,7 +36,7 @@
     ansible.builtin.file:
       path: /tmp/cart.zip
       state: absent
-      
+
   - name: downloading cart application
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
@@ -57,9 +57,10 @@
       src: cart.service
       dest: /etc/systemd/system/cart.service
   
-  - name: start and enable
-    ansible.builtin.service:
-      name: cart
+  - name: daemon reload enable and start
+    ansible.builtin.systemd_service:
+      name: catalogue
+      enabled: true
       state: started
-      enabled: yes
+      daemon_reload: true
 
