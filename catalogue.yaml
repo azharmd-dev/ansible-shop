@@ -21,6 +21,11 @@
       shell: /sbin/nologin
       home: /app
   
+  - name: delete app directory
+    ansible.builtin.file: 
+      state: absent
+      path: /app
+
   - name: create app directory
     ansible.builtin.file: 
       state: directory
@@ -30,6 +35,11 @@
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
       dest: /tmp/catalogue.zip
+
+  - name: remove downloaded file
+    ansible.builtin.file: 
+      state: absent
+      path: /tmp/catalogue.zip
 
   - name: extracting the application
     ansible.builtin.unarchive:
