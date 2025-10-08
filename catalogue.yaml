@@ -78,8 +78,9 @@
     ansible.builtin.command: mongosh --host mongodb.azharprojects.site </app/db/master-data.js
     when: catalogue_output.stdout | int < 0 #convert string to int
   
-  - name: start and enable catalogue
-    ansible.builtin.service:
+  - name: daemon reload enable and start
+    ansible.builtin.systemd_service:
       name: catalogue
-      enabled: yes
+      enabled: true
       state: started
+      daemon_reload: true
