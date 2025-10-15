@@ -1,0 +1,10 @@
+#This palybook used to auto scaling the frontend using frontend.aws_ec2.yaml
+- name: install nginx
+  hosts: aws_ec2
+  become: yes
+  tasks:
+  - name: install nginx
+    ansible.builtin.package:
+      name: nginc
+      state: present
+      
