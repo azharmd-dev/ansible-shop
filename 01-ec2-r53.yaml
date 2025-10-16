@@ -64,8 +64,8 @@
       zone: "{{ domain_name }}"
       record: "{{ domain_name }}" # daws86s.fun
       type: A
-      # ttl: 1
-      # value: "{{ item.instances[0].public_ip_address }}"
+    # ttl: 1
+    # value: "{{ item.instances[0].public_ip_address }}"
       overwrite: true
     when: item.item == "frontend"
     loop: "{{ ec2_output.results }}"
